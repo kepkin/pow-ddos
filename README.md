@@ -52,6 +52,7 @@ For testing purposes docker compose file is available with following configurati
  - number of Guides servers 2
  - the tour length is hard coded to 5
 
-
+```
  docker-compose up
  docker-compose run client ./example-client --server http://server:8080 --guides http://guide1:8080 http://guide2:8080
+```
