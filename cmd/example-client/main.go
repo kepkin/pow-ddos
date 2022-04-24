@@ -32,12 +32,20 @@ func makeServerReq(ctx context.Context, s string, powClient pow.Client) error {
 		l := resp.Header.Get("x-pow-length")
 
 		tourLength, err := strconv.Atoi(l)
+		if err != nil {
+			return err
+		}
+
 		hl, err := powClient.Pow(ctx, []byte(client), pow.NewTokenFromHex(h0), tourLength)
 		if err != nil {
 			return err
 		}
 
 		hreq, err := http.NewRequest("GET", s, nil)
+		if err != nil {
+			return err
+		}
+
 		xPowHashes := strings.Join([]string{h0, hl.Hex(), l}, ",")
 		hreq.Header.Add("x-pow-hashes", xPowHashes)
 
@@ -73,7 +81,7 @@ func main() {
 		gs[i] = pow.NewHttpGuide(g)
 	}
 
-	powClient := pow.Client{gs}
+	powClient := pow.Client{Guides: gs}
 	err := makeServerReq(context.TODO(), args.Server, powClient)
 	if err != nil {
 		log.Fatal(err)

@@ -34,7 +34,7 @@ func (h *GuideHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	enc := json.NewEncoder(w)
 	err = enc.Encode(newHash.Hex())
 	if err != nil {
-		log.Print("failed to make response: %v", err)
+		log.Print("failed to make response: ", err)
 	}
 	log.Print("issued: ", newHash.Hex())
 }
